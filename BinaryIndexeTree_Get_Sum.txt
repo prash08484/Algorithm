@@ -1,0 +1,35 @@
+
+void update(vi &vec, vi &BItree, int idx, int diff)
+{
+update BItree and vec at index 'idx' with difference value 'diff'
+    if (idx >= 0 && idx < vec.size())
+    {
+        vec[idx] += diff;
+        idx++;
+        int n = vec.size();
+        while (idx <= n)
+        {
+            BItree[idx] += diff;
+            idx = idx + ((idx) & (-idx));
+        }
+    }
+}
+
+void build(vi &vec, vi &BItree, int n)
+{ // make the BItree  
+    loop(n)
+    {
+        update(vec, BItree, i, vec[i]);
+    }
+}
+
+int getSum(vi &BItree, int i)
+{  // return the sum from index '0' to 'i' : 0 based indexing 
+    int sum = 0;
+    while (i > 0)
+    {
+        sum += BItree[i];
+        i = i - (i & (-i));
+    }
+    return sum;
+}
