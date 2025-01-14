@@ -1,12 +1,17 @@
 
-void update(vi &vec, vi &BItree, int idx, int diff)
+
+/* NOTE:
+all the update and build and getSum are made on the basis of 0 indexed mean 
+getSum(4): sum of all the value from index 0 to index 4
+*/
+
+
+void update(vll &vec, vll &BItree, ll idx, ll diff)
 {
-update BItree and vec at index 'idx' with difference value 'diff'
-    if (idx >= 0 && idx < vec.size())
+    if (idx >= 0 && idx < (ll)vec.size())
     {
-        vec[idx] += diff;
         idx++;
-        int n = vec.size();
+        ll n = vec.size();
         while (idx <= n)
         {
             BItree[idx] += diff;
@@ -14,18 +19,18 @@ update BItree and vec at index 'idx' with difference value 'diff'
         }
     }
 }
-
-void build(vi &vec, vi &BItree, int n)
-{ // make the BItree  
+ 
+void build(vll &vec, vll &BItree, ll n)
+{
     loop(n)
     {
         update(vec, BItree, i, vec[i]);
     }
 }
-
-int getSum(vi &BItree, int i)
-{  // return the sum from index '0' to 'i' : 0 based indexing 
-    int sum = 0;
+ 
+ll getSum(vll &BItree, ll i)
+{   i++;
+    ll sum = 0;
     while (i > 0)
     {
         sum += BItree[i];
@@ -33,3 +38,54 @@ int getSum(vi &BItree, int i)
     }
     return sum;
 }
+
+
+
+
+
+
+
+
+
+
+void solve()
+{
+ 
+
+    ll n; // arr length and
+    cin >> n;
+ 
+    ll q;         // qurery
+    cin >> q;      // query input
+ 
+    vll vec(n);     // arr
+    read_vec(vec); // arr input 
+ 
+    vll BItree(n+1, 0);   // Binary Indexed Tree
+    build(vec, BItree,n); // building BITree
+ 
+    while (q--)
+    {  
+        int act;
+        cin >> act;
+        if (act == 1)
+        { // update
+            ll idx, val;
+            cin >> idx >> val;
+            idx--;
+            update(vec, BItree, idx, val - vec[idx]);
+            vec[idx]=val;
+        }
+        else
+        { // get sum
+            ll l, r;
+            cin >> l >> r;
+            l--; r--;
+            l = getSum(BItree, l-1);
+            r = getSum(BItree, r);
+            l = r - l;
+            cout << l << endl;
+        } 
+    }
+}
+ 
