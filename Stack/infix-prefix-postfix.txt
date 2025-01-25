@@ -1,0 +1,105 @@
+ 
+----------------------------------------------------------------------------------------------------
+
+
+Infix to postfix Conversion : --->
+
+1. Read all the symbols one by one from left to right in the given Infix Expression.
+2. If the reading symbol is operand, then immediately send it to the output.
+3. If the reading symbol is left parenthesis '(', then Push it on to the Stack.
+4. If the reading symbol is right parenthesis ')', then Pop all the contents of stack until respective left
+parenthesis is popped and print each popped symbol to the output.
+5. If the reading symbol is operator (+ , - , * , / etc.,), then Push it on to the Stack. However,
+    1. The associativity of the operators (current operator and the operator on top of the stack) is left
+       to right then first pop the operators which are already on the stack that have higher or equal
+       precedence than the current operator then pop it and send it to output, if open parenthesis is there
+       on top of the stack then push the operator into stack (even though the precedence of ‘(’ is more
+       than any other operator and it is the exceptional case).
+    2. The associativity of the operators (current operator and the operator on top of the stack) is right
+       to left then first pop the operators which are already on the stack that have lower precedence than
+       the current operator then pop it and send it to output, if open parenthesis is there on top of the
+       stack then push the operator into stack (even though the precedence of ‘(’ is more than any other
+       operator and it is the exceptional case)
+6. If the stack is not null then print all other except '('
+
+ 
+
+----------------------------------------------------------------------------------------------------
+
+
+
+Infix to prefix Conversion
+
+1.Reverse the given infix expression , When reversing the parenthesis ‘)’ will become ‘(‘ and ‘(‘ will become ‘)’
+(applicable to all types of brackets).
+2. Apply the infix to postfix conversion algorithm on the reversed infix expression. For the
+above example the resultant postfix expression is: cb*a+
+3. Reverse the obtained postfix expression, and is the required prefix expression for the given
+infix expression. For the above example, the infix expression is +a*bc
+
+
+
+----------------------------------------------------------------------------------------------------
+
+
+Prefix to infix Conversion : --->
+
+1. Reverse the given prefix expression, for example the reverse of the prefix expression *cd is
+dc*
+2. Read the character by character of the reversed infix expression and repeat the step 3 and 4
+till there are no characters in the reversed prefix expression .
+3. If the character read is an operand then push the operand into the stack. (push d and c)
+4. If the character read is an operator, op, then pop the top two symbols from the stack, the
+first one is p1, and the second one is p2. Push the concatenated string p1 op p2 to stack.
+(push c *d )
+5. Now the value in the stack is the required infix expression. (c*d)
+ 
+
+----------------------------------------------------------------------------------------------------
+
+
+Prefix to Postfix Conversion : --->
+
+1. Reverse the given prefix expression, for example the reverse of the prefix expression *cd is
+cd*.
+2. Read the character by character of the reversed infix expression and repeat the step 3 and 4
+till there are no characters in the reversed prefix expression .
+3. If the character read is an operand then push the operand into the stack. (push d and c)
+4. If the character read is an operator, op, then pop the top two symbols from the stack, the
+first one is p1, and the second one is p2. Push the concatenated string p1 p2 op to stack.
+(push c d * )
+5. Now the value in the stack is the required postfix expression. (c d *)
+ 
+
+----------------------------------------------------------------------------------------------------
+
+
+Postfix to Infix Conversion : --->
+
+1. Read the character by character of the given postfix expression and repeat the step 2 and 3
+till there are no characters in the postfix expression. For example assume the postfix
+expression ab+;
+2. If the character read is an operand then push the operand into the stack. (push a and b)
+3. If the character read is an operator, op, then pop the top two symbols from the stack, the
+first one is p1, and the second one is p2. Push the concatenated string p2 op p1 to stack.
+(push a * b )
+4. Now the value in the stack is the required infix expression. (a * b)
+ 
+
+----------------------------------------------------------------------------------------------------
+
+
+Postfix to Prefix Conversion : ---> 
+
+1. Read the character by character of the given postfix expression and repeat the step 2 and 3
+till there are no characters in the postfix expression. For example assume the postfix
+expression ab+;
+2. If the character read is an operand then push the operand into the stack. (push a and b)
+3. If the character read is an operator, op, then pop the top two symbols from the stack, the
+first one is p1, and the second one is p2. Push the concatenated string op p2 p1 to stack.
+(push a * b )
+4. Now the value in the stack is the required postfix expression. (*a b)
+
+ 
+----------------------------------------------------------------------------------------------------
+

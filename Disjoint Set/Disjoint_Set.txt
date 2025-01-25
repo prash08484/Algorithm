@@ -1,0 +1,28 @@
+int find(int x, vi &parent)
+{
+    if (x == parent[x])
+        return x;
+             
+    // Path Compression 
+    parent[x] = find(parent[x], parent); 
+    return parent[x];
+}
+
+
+void union(int x, int y, vi &parent, vi &rank){
+
+    int a = find(x, parent);
+    int b = find(y, parent);
+    if (a == b)
+        return;
+
+    // union by rank
+
+    if (rank[a] > rank[b]) {
+        parent[b] = a; }
+    else if (rank[a] < rank[b]){
+        parent[a] = b; }
+    else {
+        parent[a] = b;
+        rank[b]++; }
+}

@@ -1,0 +1,73 @@
+// Rabin Karp 
+
+int countDistinctSubstring(string s)
+{   
+    int n = s.size();
+
+    const int p = 31;
+    const int m = 1e9 + 9;
+    vector<long long> p_pow(n);
+    p_pow[0] = 1;
+    for (int i = 1; i < n; i++)
+        p_pow[i] = (p_pow[i-1] * p) % m;
+
+    vector<long long> h(n + 1, 0);
+    for (int i = 0; i < n; i++)
+        h[i+1] = (h[i] + (s[i] - 'a' + 1) * p_pow[i]) % m;
+
+    int cnt = 0;
+    for (int l = 1; l <= n; l++) {
+        unordered_set<long long> hs;
+        for (int i = 0; i <= n - l; i++) {
+            long long cur_h = (h[i + l] + m - h[i]) % m;
+            cur_h = (cur_h * p_pow[n-i-1]) % m;
+            hs.insert(cur_h);
+        }
+        cnt += hs.size();
+    }
+    return cnt+1;
+}
+
+
+
+// Trie 
+class TrieNode {
+public:
+    bool isWord;
+    TrieNode* child[26];
+
+    TrieNode()
+    {
+        isWord = 0;
+        for (int i = 0; i < 26; i++) {
+            child[i] = 0;
+        }
+    }
+};
+
+int countDistinctSubstring(string str)
+{
+    TrieNode* head = new TrieNode();
+
+    // will hold the count of unique substrings
+    int count = 0;
+    // included count of substr " "
+
+    for (int i = 0; i < str.length(); i++) {
+        TrieNode* temp = head;
+
+        for (int j = i; j < str.length(); j++) {
+            // when char not present add it to the trie
+            if (temp->child[str[j] - 'a'] == NULL) {
+                temp->child[str[j] - 'a'] = new TrieNode();
+                temp->isWord = 1;
+                count++;
+            }
+            // move on to the next char
+            temp = temp->child[str[j] - 'a'];
+        }
+    }
+
+    return count;
+}
+
