@@ -10,7 +10,7 @@ int hash(char c) // to set preference order :
 string infixToPostfix(string s)
 {
     // step 1 : if you get operand then print asap
-    // if get operator then remove all the >= precedence operator and print
+    // if get operator then remove all the operator that have greater or equal precedence and print
     // if get (  then push in stack
     // if get ) the pop till you not get it's opening bracket
 
