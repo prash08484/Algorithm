@@ -1,0 +1,28 @@
+int min_swap_sort(auto &idx,int n){
+
+/*
+n       :  size of array
+idx[i]  :  which index should be at index i
+curr[i] : which index is there currently at index i
+lie[i]  :  where is index i lies 
+*/ 
+  
+    vector<int>curr(n),lie(n);  
+    for(int i=0;i<n;i++){curr[i]=lie[i]=i; }
+
+    int cnt=0; 
+
+        for(int i=0; i<n; i++){
+        int x=idx[i],y=curr[i]; 
+  
+             if(x!=y){  
+                int pos_x=lie[x];         // where is x lie ? 
+                int curr_idx=curr[i];    //  curr_idx  : current element on index i
+                curr[lie[x]]=curr_idx;  // put curr_idx where x lies initially 
+                lie[curr_idx]=lie[x];  // update the index curr_idx , it become initialy index of x                          
+                cnt++;          
+             } 
+        }
+        
+return cnt; 
+}
