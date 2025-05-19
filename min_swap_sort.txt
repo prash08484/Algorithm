@@ -18,8 +18,8 @@ lie[i]  :  where is index i lies
              if(x!=y){  
                 int pos_x=lie[x];         // where is x lie ? 
                 int curr_idx=curr[i];    //  curr_idx  : current element on index i
-                curr[lie[x]]=curr_idx;  // put curr_idx where x lies initially 
-                lie[curr_idx]=lie[x];  // update the index curr_idx , it become initialy index of x                          
+                curr[pos_x]=curr_idx;  // put curr_idx where x lies initially 
+                lie[curr_idx]=pos_x;  // update the index curr_idx , it become initialy index of x                          
                 cnt++;          
              } 
         }
