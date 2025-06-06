@@ -1,6 +1,10 @@
 vi segTree; //  global segemnent tree 
+// NOTE : here we used 1 based indexing 
 
-// 1-based indexing 
+// 1-based indexing : for operation on segment tree pass 1 as starting index 
+// 0-based indexing : for operation on segment tree pass 0 as starting index 
+
+
 int left(int i){ 
     return 2*i; }
 int right(int i){
