@@ -22,9 +22,11 @@ segTree[index]=segTree[left(index)]+segTree[right(index)];
 }
 
 void propagate(int start,int end,int index){
-      if(start==end)return; 
+      if(start==end){
+        lazy[index]=0; return;  }
+    
       lazy[2*index]+=lazy[index];
-      lazy[2*index+1]=lazy[index];
+      lazy[2*index+1]+=lazy[index];
       lazy[index]=0;
 }
 
