@@ -21,7 +21,7 @@ build(arr,mid+1,end,right(index));
 segTree[index]=segTree[left(index)]+segTree[right(index)];
 }
 
-void porpagate(int start,int end,int index){
+void propagate(int start,int end,int index){
       if(start==end)return; 
       lazy[2*index]+=lazy[index];
       lazy[2*index+1]=lazy[index];
@@ -38,7 +38,9 @@ void update(vi &arr,int start,int end,int l,int r,int index,int value){
   if(r<start or l>end){ return; } // out of range 
   
   if(l>=start and r<=end){ // complete overlap 
+         segTree[index]+=value;
          lazy[index]+=value;  
+         propagate(start,end,index);
     return;
   } 
   
