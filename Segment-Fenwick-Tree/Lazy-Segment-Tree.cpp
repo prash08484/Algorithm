@@ -10,7 +10,7 @@ void propagate(int start,int end,int index){
      // UPDATE MAY NEEDED
      lazy[left(index)]+=lazy[index];
      lazy[right(index)]+=lazy[index];
-     lazy[i]=0; 
+     lazy[index]=0; 
 }
 // UPDATE RETURN TYPE AND DATA TYPE IN PARAMETER
 ll merge(const ll &a,const ll &b){
