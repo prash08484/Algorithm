@@ -3,7 +3,7 @@ vll segTree,lazy;  // segment Tree,lazy Tree
  
 // helper function
 int left(int i){ return i<<1; }
-int right(int i){ return 1|(i<<1);}
+int right(int i){ return (i<<1)|1;}
 int treeSize(int n){ int sz=ceil(log2(n)); return 1<<(sz+1); }
 void propagate(int start,int end,int index){
      if(start==end){ lazy[index]=0; return; }
@@ -38,7 +38,7 @@ void update(int start,int end,int index,int l,int r,ll value){
 
     // complete overlap
     if(start>=l and end<=r){
-        segTree[index]+=value;
+        segTree[index]+=value; 
         lazy[index]+=value;
         propagate(start,end,index); return;}
 
