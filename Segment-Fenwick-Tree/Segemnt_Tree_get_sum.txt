@@ -1,20 +1,20 @@
-vi segTree; //  global segemnent tree 
+vector<ll> segTree; //  global segemnent tree 
 // NOTE : here we used 1 based indexing 
 
 // 1-based indexing : for operation on segment tree pass 1 as starting index 
 // 0-based indexing : for operation on segment tree pass 0 as starting index 
 
+// helper function
+int left(int i){ return i<<1; }
+int right(int i){ return (i<<1)|1;}
+int treeSize(int n){ int sz=ceil(log2(n)); return 1<<(sz+1); }
+ll merge(const ll &a,const ll &b){
+    return min(a,b);
+}
 
-int left(int i){ 
-    return 2*i; }
-int right(int i){
-    return 2*i+1;}
-
-int size(int n){ // size of segment Tree 
-int sz=ceil(log2(n));
-sz=2*pow(2,sz); // 1-based indexing
-// sz=2*pow(2,sz)-1; // 0-based indexing 
-segTree.resize(sz,-1); }
+ll apply(const ll &a,const ll &b){
+    return a+b;
+}
 
 /* NOTE : You can also take left as 2*i+1 and right as 2*i+2 
            in place of index as 1 then you need to pass 0 
@@ -22,59 +22,68 @@ segTree.resize(sz,-1); }
 */    
 
 // making segment tree : O(n)
-void build(vi &arr, int start ,int end ,int index){
-    if(start==end){
-    segTree[index]=arr[start];
+void build(vector<ll> &arr, int start ,int end ,int index){
+  if(start==end){
+  // UPDATE MAY NEEDED
+        segTree[index]=arr[start];
     return; }
-int mid=(start+end)/2; 
-build(arr,start,mid,left(index));
-build(arr,mid+1,end,right(index));
-segTree[index]=segTree[left(index)]+segTree[right(index)];
+  int mid=(start+end)/2; 
+  build(arr,start,mid,left(index));
+  build(arr,mid+1,end,right(index));
+  segTree[index]=merge(segTree[left(index)],segTree[right(index)]);
 }
 
-void update(vi &arr,int start,int end,int index,int pos,int value){
+void update(int start,int end,int index,int pos,int value){
    
    if(start==end){
-    arr[pos]=value;
-    segTree[index]=arr[pos];
+    segTree[index]=apply(segTree[index],value);
     return; }
 
   int mid=(start+end)/2;
    if(mid>=pos)
-    update(arr,start,mid,left(index),pos,value);
+    update(start,mid,left(index),pos,value);
    else
-    update(arr,mid+1,end,right(index),pos,value);
+    update(mid+1,end,right(index),pos,value);
    
-   segTree[index]=segTree[2*index]+segTree[2*index+1];
+   segTree[index]=merge(segTree[left(index)],segTree[right(index)]);
 }
 
-// to find sum from l to r 
+
+/* find query [l,r]  */
 int query(int start,int end,int index,int l,int r){
 
-if(l>end || r<start) /* curr sum is out of range */
+/* out of range */
+if(l>end || r<start) {
+// UPDATE MAY NEEDED
     return 0;
+}
 
-if(start>=l&&end<=r)
+/* completer overlap */
+if(start>=l&&end<=r){
     return segTree[index];
+}
 
+/* parital overlap */
 int mid=(start+end)/2;
 int leftAns=query(start,mid,left(index),l,r);
 int rightAns=query(mid+1,end,right(index),l,r);
-return rightAns+leftAns;
 
+return merge(leftAns,rightAns);
 } 
 
-void Segment_Tree(){
+void solve(){
 
 int n; // size of given arr
 cin>>n;
 
 // size req. to store segment tree
-int sz=size(n);
+int sz=treeSize(n);
+
+segTree.resize(sz,0);
 
 // taking array input 
-vi arr(n);
-read_vec(arr);
+vector<int> arr(n);
+read(arr);
 
 // making segment tree
 build(arr,0,n-1,1);
