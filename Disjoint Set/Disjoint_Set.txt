@@ -1,22 +1,31 @@
-int find(int x, vi &parent)
-{
+class dsu{
+
+public:
+      vi parent;
+      vi rank;
+
+    dsu(int n){
+        parent.resize(n);
+        iota(all(parent),0);
+        rank.resize(n,0);
+    }
+
+  int find(int x){
     if (x == parent[x])
         return x;
              
     // Path Compression 
-    parent[x] = find(parent[x], parent); 
+    parent[x] = find(parent[x]); 
     return parent[x];
-}
+ }
 
 
-void union(int x, int y, vi &parent, vi &rank){
+  void unionRank(int x,int y){ // union by rank
 
-    int a = find(x, parent);
-    int b = find(y, parent);
+    int a = find(x);
+    int b = find(y);
     if (a == b)
         return;
-
-    // union by rank
 
     if (rank[a] > rank[b]) {
         parent[b] = a; }
@@ -25,4 +34,6 @@ void union(int x, int y, vi &parent, vi &rank){
     else {
         parent[a] = b;
         rank[b]++; }
-}
+  }
+
+};
