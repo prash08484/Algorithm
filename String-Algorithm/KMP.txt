@@ -1,4 +1,6 @@
-   // Function to compute the LPS (Longest Prefix Suffix) array for the substring `sub`. 
+// Knuth-Morris-Pratt [ KMP ] - ALGORITHM
+// Function to compute the LPS (Longest Prefix Suffix) array for the substring `sub`. 
+   
 
         vector<int> computeLPSArray(string &sub) {
         vector<int> lps(sub.size(), 0);  // Initialize the LPS array with 0.
