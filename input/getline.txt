@@ -1,14 +1,9 @@
 // parse line by line 
 
+
 void solve(){  
-  
-  ll n; 
-  cin>>n;   
 
-   vll a(n); 
-  read(a);  
-
-  ll m; cin>>m; 
+  int m; cin>>m; 
 
    // consume the buffer of m : m\n 
   string s;
@@ -22,10 +17,10 @@ void solve(){
     // put in a stream 
     istringstream iss(s);
 
-    ll l,r;
+    int l,r;
     iss>>l>>r; 
 
-    ll v; 
+    int v; 
     if(iss>>v){ 
         // l,r,v
         // update

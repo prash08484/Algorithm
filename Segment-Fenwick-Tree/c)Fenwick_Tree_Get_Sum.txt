@@ -1,0 +1,91 @@
+
+
+/* NOTE:
+all the update and build and getSum are made on the basis of 0 indexed mean 
+getSum(4): sum of all the value from index 0 to index 4
+*/
+
+
+void update(vll &vec, vll &BItree, ll idx, ll diff)
+{
+    if (idx >= 0 && idx < (ll)vec.size())
+    {
+        idx++;
+        ll n = vec.size();
+        while (idx <= n)
+        {
+            BItree[idx] += diff;
+            idx = idx + ((idx) & (-idx));
+        }
+    }
+}
+ 
+void build(vll &vec, vll &BItree, ll n)
+{
+    loop(n)
+    {
+        update(vec, BItree, i, vec[i]);
+    }
+}
+ 
+ll getSum(vll &BItree, ll i)
+{   i++;
+    ll sum = 0;
+    while (i > 0)
+    {
+        sum += BItree[i];
+        i = i - (i & (-i));
+    }
+    return sum;
+}
+
+
+
+
+
+
+
+
+
+
+void solve()
+{
+ 
+
+    ll n; // arr length and
+    cin >> n;
+ 
+    ll q;         // qurery
+    cin >> q;      // query input
+ 
+    vll vec(n);     // arr
+    read_vec(vec); // arr input 
+ 
+    vll BItree(n+1, 0);   // Binary Indexed Tree
+    build(vec, BItree,n); // building BITree
+ 
+    while (q--)
+    {  
+        int act;
+        cin >> act;
+        if (act == 1)
+        { // update
+            ll idx, val;
+            cin >> idx >> val;
+            idx--;
+            update(vec, BItree, idx, val - vec[idx]);
+            vec[idx]=val;
+        }
+        else
+        { // get sum
+            ll l, r;
+            cin >> l >> r;
+            l--; r--;
+            l = getSum(BItree, l-1);
+            r = getSum(BItree, r);
+            l = r - l;
+            cout << l << endl;
+        } 
+    }
+}
+ 
