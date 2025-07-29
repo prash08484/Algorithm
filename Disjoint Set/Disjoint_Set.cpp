@@ -1,10 +1,10 @@
-class dsu{
+class DSU{
 
 public:
       vi parent;
       vi rank;
 
-    dsu(int n){
+    DSU(int n){
         parent.resize(n);
         iota(all(parent),0);
         rank.resize(n,0);
