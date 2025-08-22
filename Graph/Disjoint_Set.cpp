@@ -1,8 +1,8 @@
 class DSU{
 
 public:
-      vi parent;
-      vi rank;
+      vector<int> parent;
+      vector<int> rank;
 
     DSU(int n){
         parent.resize(n);
@@ -20,12 +20,12 @@ public:
  }
 
 
-  void unionRank(int x,int y){ // union by rank
+  bool unionRank(int x,int y){ // union by rank
 
     int a = find(x);
     int b = find(y);
     if (a == b)
-        return;
+        return 0;
 
     if (rank[a] > rank[b]) {
         parent[b] = a; }
@@ -34,6 +34,7 @@ public:
     else {
         parent[a] = b;
         rank[b]++; }
+      return 1;
   }
 
 };
