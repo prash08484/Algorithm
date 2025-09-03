@@ -19,7 +19,7 @@ int DAG_shortest_path(int n, int m, vector<vector<int>> &adj, int src, int dest)
 
     // Shortest path from src to all nodes
     vector<int> dist(n + 1, INT_MAX);
-    vector<int> prev(n + 1, -1);
+    vector<int> parent(n + 1, -1);
 
     dist[src] = 0;
 
@@ -27,28 +27,29 @@ int DAG_shortest_path(int n, int m, vector<vector<int>> &adj, int src, int dest)
         int u = st.top(); st.pop();
         if (dist[u] != INT_MAX) {
             for (int v : adj[u]) {
-                if (dist[v] > dist[u] + 1) {
+                if (dist[v] > dist[u] + 1) { // relax edegs
                     dist[v] = dist[u] + 1;
-                    prev[v] = u;
+                    parent[v] = u;
                 }
             }
         }
     }
 
     if (dist[dest] == INT_MAX) { 
-        cout << "IMPOSSIBLE\n";
+        // cout << "IMPOSSIBLE\n";
         return -1;
     }
 
     vector<int> path;
-    for (int i = dest; i != -1; i = prev[i])
+    for (int i = dest; i != -1; i = parent[i]){
         path.push_back(i);
+    }
     reverse(path.begin(), path.end());
 
-    cout << "Length of shortest path: " << dist[dest] << '\n';
-    cout << "Path: ";
-    for (int x : path) cout << x << " ";
-    cout << '\n';
+    // cout << "Length of shortest path: " << dist[dest] << '\n';
+    // cout << "Path: ";
+    // for (int x : path) cout << x << " ";
+    // cout << '\n';
 
     return dist[dest];
 }
