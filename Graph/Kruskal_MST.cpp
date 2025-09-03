@@ -1,3 +1,7 @@
+
+// E : edges , V : vertices
+// T.C. O(ElogE) 
+// S.C. O(V)
 class DSU{
 public:
       vector<int> parent;
@@ -17,7 +21,6 @@ public:
     parent[x] = find(parent[x]); 
     return parent[x];
  }
-
 
   bool unionRank(int x,int y){ // union by rank
 
@@ -53,7 +56,8 @@ void kruskal(int n, vector<pair<int,pair<int,int>>& edges) {
         }
     } 
   
-    for (auto& e : mst) {
-        cout << e.second.first << " " << e.second.second << " " << e.first << endl;
-    }
+    // for (auto& e : mst) {
+    //     cout << e.second.first << " " << e.second.second << " " << e.first << endl;
+    // }
 }
+
