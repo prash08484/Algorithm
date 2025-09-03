@@ -1,5 +1,7 @@
-class DSU{
 
+//  n nodes and m operation 
+// T.C.  O(m*α(n)) : α is inverse-akerman func α(n)<=4 
+class DSU{
 public:
       vector<int> parent;
       vector<int> rank;
@@ -10,18 +12,16 @@ public:
         rank.resize(n,0);
     }
 
-  int find(int x){
+   int find(int x){
     if (x == parent[x])
         return x;
-             
+        
     // Path Compression 
     parent[x] = find(parent[x]); 
     return parent[x];
  }
 
-
   bool unionRank(int x,int y){ // union by rank
-
     int a = find(x);
     int b = find(y);
     if (a == b)
@@ -36,5 +36,4 @@ public:
         rank[b]++; }
       return 1;
   }
-
 };
