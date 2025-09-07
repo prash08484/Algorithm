@@ -1,6 +1,6 @@
  
 
- // Eulur Tour for flattening of tree 
+ // Euler Tour for flattening of tree 
 int idx=0;
 void dfs1(vi adj[],vi &flat,map<int,int>&mpp,int node,int parent){
     if(mpp.count(node)==0){
@@ -40,24 +40,28 @@ void solve(){
         adj[v].pb(u);
     }
 
+    vi flat;
 
-// Eulur Tour Type 1 : ---> 
-    // vi flat;
+
+// Euler Tour Type 1 : ---> 
+
+    // USE :  singl3 subtree container (entry-marked exit mark after subtree all subtree covered)
+    
     // map<int,int>mpp; // to store the first index of each node
-    // dfs(adj,flat,mpp,1,-1);
-    // // debug(flat);
-    // // debug(mpp);
+    // dfs1(adj,flat,mpp,1,-1);
+     
     // while(q--){  // to find the LCA (A,B)
     // int a,b;
     // cin>>a>>b;
     // // with the help of segment trees you can find the min level 
     // }
 
-// Eulur Tour Type 2 :  --->
-    vi flat;
-    map<int,pair<int,int>>mpp; // to store the first index of each node
-    dfs2(adj,flat,mpp,1,-1); 
-    debug(mpp);
-    debug(flat);
+// Euler Tour Type 2 :  ---> 
+
+    // USE: seprate subtree container for each (entry-exit marked)
+    
+    // map<int,pair<int,int>>mpp; // to store the first index of each node
+    // dfs2(adj,flat,mpp,1,-1); 
+    
  }
  
