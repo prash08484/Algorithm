@@ -21,7 +21,7 @@ public:
     return parent[x];
  }
 
-  bool unionRank(int x,int y){ // union by rank
+  bool merge(int x,int y){ // union by rank
     int a = find(x);
     int b = find(y);
     if (a == b)
