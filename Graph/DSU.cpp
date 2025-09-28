@@ -8,7 +8,7 @@ public:
 
     DSU(int n){
         parent.resize(n);
-        iota(all(parent),0);
+        iota(begin(parent),end(parent),0);
         rank.resize(n,0);
     }
 
