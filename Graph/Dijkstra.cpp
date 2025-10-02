@@ -1,7 +1,7 @@
 // O(VlogV + ElogV)
 // Single Source Shortest Path
 
-void Dijkstra(int src, int n, vector<ll> &dist, vector<int> &parent, vector<vector<pair<ll, ll>>> adj) { 
+void Dijkstra(int src, int n, vector<ll> &dist, vector<int> &parent, vector<vector<pair<ll, ll>>> &adj) { 
 	dist.assign(n, INF); // UPDATE NEEDED
 	parent.assign(n, -1);
 	dist[src] = 0;
@@ -25,4 +25,5 @@ void Dijkstra(int src, int n, vector<ll> &dist, vector<int> &parent, vector<vect
 		}
 	}
 }
+
 
