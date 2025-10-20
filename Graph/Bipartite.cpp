@@ -16,12 +16,9 @@ bool dfsBipartite(vector<int>&color,vector<vector<int>>&adj,int c,int i){
 
 bool Bipartite(int n,auto &adj,vector<int>&color){ 
 for(int i=1;i<=n;i++){
-    if(color[i]==0){
-        bool chk=dfsBipartite(color,adj,1,i);
-        if(!chk){
+    if(!color[i]==0 && !dfsBipartite(color,adj,1,i){
         // IMPOSSIBLE
              return 0;
-        }
     }
 } 
   return 1;  
@@ -31,3 +28,4 @@ for(int i=1;i<=n;i++){
  
  
  
+
