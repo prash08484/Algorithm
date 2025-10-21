@@ -41,7 +41,7 @@ public:
 };
 
  // Format of edges[i] = {wt,{u,v}} 
-void kruskal(int n, vector<pair<int,pair<int,int>>& edges) {
+void kruskal(int n, vector<pair<int,pair<int,int>>>& edges) {
     sort(edges.begin(), edges.end());
     DSU dsu(n);
   
@@ -60,4 +60,5 @@ void kruskal(int n, vector<pair<int,pair<int,int>>& edges) {
     //     cout << e.second.first << " " << e.second.second << " " << e.first << endl;
     // }
 }
+
 
