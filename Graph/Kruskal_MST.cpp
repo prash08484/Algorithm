@@ -41,24 +41,27 @@ public:
 };
 
  // Format of edges[i] = {wt,{u,v}} 
-void kruskal(int n, vector<pair<int,pair<int,int>>>& edges) {
+ll MST(int n, vector<pair<ll,pair<int,int>>>& edges) {
     sort(edges.begin(), edges.end());
     DSU dsu(n);
   
-    int mst_weight = 0;
-    vector<pair<int,pair<int,int>> mst; // Format of mst[i] = {wt,{u,v}} 
+    ll mst_wt = 0;
+    vector<pair<ll,pair<int,int>>> mst; // Format of mst[i] = {wt,{u,v}} 
   
     for (auto& e : edges) {
       int u=e.second.first, v=e.second.second;
         if(dsu.unionRank(u,v)) {
-            mst_weight += e.first;
+            mst_wt += e.first;
             mst.push_back(e);
         }
     } 
+
+    return mst_wt;
   
     // for (auto& e : mst) {
     //     cout << e.second.first << " " << e.second.second << " " << e.first << endl;
     // }
 }
+
 
 
