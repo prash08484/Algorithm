@@ -1,9 +1,9 @@
 
 // T.C. Construction -> nlog(n) , query -> log(k):where kth parent  
 
-void dfs(ll node, ll parent,vll adj[],vvll &dp){
+void dfs(int node, int parent, vvi &adj, vvi &dp){
     dp[node][0]=parent;
-    flp(i,1,17){
+    for(int i=1;i<17;i++){
         dp[node][i]=dp[dp[node][i-1]][i-1];
     }
     for(auto &it:adj[node]){
@@ -13,29 +13,30 @@ void dfs(ll node, ll parent,vll adj[],vvll &dp){
 } 
 
 void solve(){
- ll n;  cin>>n; 
- vll adj[n+1]; 
+ int n;  cin>>n; 
+ vvi adj(n);
 
  flp(i,0,n-1){
-    ll u,v; 
-    cin>>u>>v; 
+     int u,v; cin>>u>>v; 
+     u--,v--;
     adj[u].pb(v);
     adj[v].pb(u);
  }
 
- vvll dp(n+1,vll(17,0));
- dfs(1,0,adj,dp);
+ vvi dp(n,vi(17,0));
+ dfs(0,0,adj,dp);
 
  // query
- ll q; cin>>q; 
+ int q; cin>>q; 
  while(q--){     
     ll node; cin>>node; 
-    ll k; cin>>k;  
+    ll k; cin>>k; // kth_parent of node
+      node--; 
     flpb(i,16,0){
         if((k>>i)&1){
             node=dp[node][i]; 
         }
     }
-    cout<<node<<nline; 
+    cout<<node<<'\n'; 
  }
 }
