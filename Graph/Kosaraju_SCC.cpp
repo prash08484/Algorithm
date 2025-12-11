@@ -16,7 +16,7 @@ void dfs2(int v, vector<vector<int>>& adjT, vector<bool>& vis, vector<int>& comp
     }
 }
 
-vector<int> kosaraju(int n, vector<vector<int>>& adj) {
+vector<vector<int>> kosaraju(int n, vector<vector<int>>& adj) {
     // Topological sort
     vector<bool> vis(n, 0);
     stack<int> st;
@@ -43,3 +43,4 @@ vector<int> kosaraju(int n, vector<vector<int>>& adj) {
 
     return sccs;
 }
+
