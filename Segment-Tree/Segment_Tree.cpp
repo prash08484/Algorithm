@@ -1,15 +1,23 @@
 
-class SegmentTree{
-  private:
+class SegmentTree{ 
     // NOTE : here we used 1 based indexing 
     
     // 1-based indexing : for operation on segment tree pass 1 as starting index 
     // 0-based indexing : for operation on segment tree pass 0 as starting index 
+
+    /* NOTE : You can also take left as 2*i+1 and right as 2*i+2 
+               in place of index as 1 then you need to pass 0 
+               in size substract one  
+    */  
     
     // helper function
     int left(int i){ return i<<1; }
     int right(int i){ return (i<<1)|1;}
     int treeSize(int n){ int sz=ceil(log2(n)); return 1<<(sz+1); }
+public:
+
+    vector<ll> segTree; //  global segemnent tree  
+
     ll merge(const ll &a,const ll &b){
         return min(a,b);
     }
@@ -17,29 +25,6 @@ class SegmentTree{
     ll apply(const ll &a,const ll &b){
         return a+b;
     }
-    
-    /* NOTE : You can also take left as 2*i+1 and right as 2*i+2 
-               in place of index as 1 then you need to pass 0 
-               in size substract one  
-    */  
-
-
-        // making segment tree : O(n)
-    void build(vector<ll> &arr, int start ,int end ,int index){
-        if(start==end){
-           // UPDATE MAY NEEDED
-            segTree[index]=arr[start];
-            return; 
-        }
-        int mid=(start+end)/2; 
-        build(arr,start,mid,left(index));
-        build(arr,mid+1,end,right(index));
-        segTree[index]=merge(segTree[left(index)],segTree[right(index)]);
-    }
-
-
-  public: 
-    vector<ll> segTree; //  global segemnent tree   
 
     SegmentTree(vector<ll>&arr){
         int n=arr.size(); 
@@ -51,8 +36,22 @@ class SegmentTree{
         // making segment tree
         build(arr,0,n-1,1);
     }
-
-    void update(int start,int end,int index,int pos,int value){
+    
+    // build segment tree : O(n)
+    void build(vector<ll> &arr, int start, int end, int index){
+        if(start==end){
+           // UPDATE MAY NEEDED
+            segTree[index]=arr[start];
+            return; 
+        }
+        int mid=(start+end)/2; 
+        build(arr,start,mid,left(index));
+        build(arr,mid+1,end,right(index));
+        segTree[index]=merge(segTree[left(index)],segTree[right(index)]);
+    }
+    
+    /* update (pos,value) 0,n-1,1,pos,value  */
+    void update(int start, int end, int index, int pos, ll value){
        
         if(start==end){
            segTree[index]=apply(segTree[index],value);
@@ -67,11 +66,11 @@ class SegmentTree{
     }
 
 
-    /* find query [l,r]  */
-    ll query(int start,int end,int index,int l,int r){
+    /* find query [l,r] 0,n-1,1,qry_l,qry_r  */
+    ll query(int start, int end, int index, int l, int r){
         
-        /* out of range */
-        if(l>end || r<start) {
+        /* out of bound */
+        if(l>end || r<start){
         // UPDATE MAY NEEDED
             return 0;
         }
@@ -83,9 +82,10 @@ class SegmentTree{
         
         /* parital overlap */
         int mid=(start+end)/2;
-        ll leftAns=query(start,mid,left(index),l,r);
-        ll rightAns=query(mid+1,end,right(index),l,r);
+        auto leftAns=query(start,mid,left(index),l,r);
+        auto rightAns=query(mid+1,end,right(index),l,r);
         
         return merge(leftAns,rightAns);
     } 
 };
+
