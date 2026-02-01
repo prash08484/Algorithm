@@ -1,28 +1,18 @@
-int min_swap_sort(auto &idx,int n){
+int min_swap_sort(const vector<int>& idx) {
+    int n = idx.size();
+    vector<bool> vis(n, false);
+    int swaps = 0;
 
-/*
-n       :  size of array
-idx[i]  :  which index should be at index i
-curr[i] : which index is there currently at index i
-lie[i]  :  where is index i lies 
-*/ 
-  
-    vector<int>curr(n),lie(n);  
-    for(int i=0;i<n;i++){curr[i]=lie[i]=i; }
+    for (int i = 0; i < n; i++) {
+        if (vis[i] || idx[i] == i) continue;
 
-    int cnt=0; 
-
-        for(int i=0; i<n; i++){
-        int x=idx[i],y=curr[i]; 
-  
-             if(x!=y){  
-                int pos_x=lie[x];         // where is x lie ? 
-                int curr_idx=curr[i];    //  curr_idx  : current element on index i
-                curr[pos_x]=curr_idx;  // put curr_idx where x lies initially 
-                lie[curr_idx]=pos_x;  // update the index curr_idx , it become initialy index of x                          
-                cnt++;          
-             } 
+        int cycle = 0, j = i;
+        while (!vis[j]) {
+            vis[j] = true;
+            j = idx[j];
+            cycle++;
         }
-        
-return cnt; 
+        swaps += cycle - 1;
+    }
+    return swaps;
 }
