@@ -1,64 +1,40 @@
 
- 
-struct TreeNode { 
-    int val; 
-    TreeNode* left; 
-    TreeNode* right; 
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-};
-
-
 class BSTIterator {
 private: 
     stack<TreeNode*> myStack;
-    // moving forward (inorder) or backward (reverse inorder)
     bool reverse;
+    // moving forward (inorder) : False 
+   // backward(reverse inorder) : True
 
 public: 
-    BSTIterator(TreeNode* root, bool isReverse) : reverse(isReverse) { 
+    BSTIterator(TreeNode* root, bool isReverse=false) : reverse(isReverse) { 
         pushAll(root);
     }
  
-    bool hasNext() { 
-        return !myStack.empty();
+    bool empty() { 
+        return myStack.empty();
     }
 
-    //  returns next node’s value
-    int next() { 
+    int top(){ 
+        return myStack.top()->data;   
+    }
+     
+    void pop(){ 
         TreeNode* tmpNode = myStack.top(); 
         myStack.pop();
-
-        // If not reverse mode, go right 
-        if (!reverse) {
+        if (!reverse) // If not reverse mode, go right 
             pushAll(tmpNode->right);
-        }
-        // If reverse mode, go left 
-        else {
+        else // If reverse mode, go left 
             pushAll(tmpNode->left);
-        }
- 
-        return tmpNode->val;
     }
 
-private:
     void pushAll(TreeNode* node) { 
         while (node != nullptr) { 
             myStack.push(node);
-
-            // If reverse, move to right
-            if (reverse) {
+            if (reverse) // If reverse, move to right
                 node = node->right;
-            }
-            // else, move to left
-            else {
+            else // else, move to left
                 node = node->left;
-            }
         }
     }
 };
-
- 
-    // BSTIterator l(root, false); // for smallest-to-largest order
-    // BSTIterator r(root, true); //  for largest-to-smallest
-
- 
