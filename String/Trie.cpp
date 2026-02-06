@@ -1,10 +1,10 @@
  
  struct Node {  // Node structure for Trie
-    Node* links[26]; 
+    Node* next[26]; 
     bool flag = false; 
-    bool has(char ch) { return links[ch - 'a']!=nullptr; }
-    void put(char ch,Node* node){ links[ch - 'a'] = node; } 
-    Node* get(char ch) { return links[ch - 'a']; } 
+    bool has(char ch) { return next[ch - 'a']!=nullptr; }
+    void put(char ch,Node* node){ next[ch - 'a'] = node; } 
+    Node* get(char ch) { return next[ch - 'a']; } 
     void setEnd() { flag = true; } 
     bool isEnd() { return flag; }
 };
