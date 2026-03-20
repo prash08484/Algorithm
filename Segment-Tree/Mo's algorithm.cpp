@@ -1,56 +1,58 @@
+// T.C. O((n + q) * sqrt(n))
 class Mo {
-public:
-    using Query = pair<pair<ll,ll>, ll>; // {{l, r}, idx}
+public: 
+    struct Query { ll L,R,idx; };
 
     ll n, q;
     ll BLOCK;
 
-    vector<ll>a; // input array  
-    vector<ll>ans;
+    vector<ll>arr; // Input Array  
+    vector<ll>ans; 
     vector<Query>qry;
 
-    ll currSum = 0;
+    ll currSum = 0; // UPDATE AS REQ
 
-    Mo(vector<ll>& arr, vector<pair<ll,ll>>& queriesInput){
+    Mo(vector<ll>& inputArray, vector<pair<ll,ll>>& queriesInput){
+        arr = inputArray;
         n = arr.size();
-        q = queriesInput.size();
-
-        a = arr;
+        q = queriesInput.size(); // 0-based
+ 
         qry.resize(q);
 
         for (ll i=0; i<q; i++) {
-            ll l = queriesInput[i].first - 1; // 0-based
-            ll r = queriesInput[i].second - 1;
-            qry[i] = {{l, r}, i};
+            qry[i].L = queriesInput[i].L; 
+            qry[i].R = queriesInput[i].R; 
+            qry[i].idx = i;
         }
         ans.assign(q, 0);
+        run();
     } 
 
     void add(ll pos) { 
-        currSum += a[pos];
+        currSum += arr[pos]; // UPDATE REQ.
     }
 
     void remove(ll pos) { 
-        currSum -= a[pos];
+        currSum -= arr[pos]; // UPDATE REQ. 
     } 
 
     void run(){
         BLOCK = sqrt(n);
 
-        sort(qry.begin(), qry.end(),[this](const Query& a1, const Query& a2){
-                ll blockA = a1.first.first / BLOCK;
-                ll blockB = a2.first.first / BLOCK;
+        sort(begin(qry), end(qry), [this](const Query& a1, const Query& a2){
+                ll blockA = a1.L / BLOCK;
+                ll blockB = a2.L / BLOCK;
                 if (blockA != blockB){
                     return blockA < blockB;
                 }
-                return (blockA&1) ? (a1.first.second>a2.first.second) : (a1.first.second<a2.first.second);
+                return (blockA&1) ? (a1.L > a2.L) : (a1.R < a2.R);
             });
 
         ll L = 0, R = -1;
         for (auto &qv : qry) {
-            ll l = qv.first.first;
-            ll r = qv.first.second;
-            ll idx = qv.second;
+            ll l = qv.L;
+            ll r = qv.R;
+            ll idx = qv.idx;
 
             while(L>l)add(--L);
             while(R<r)add(++R);
