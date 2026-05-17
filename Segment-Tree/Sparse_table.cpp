@@ -4,11 +4,11 @@
 template<typename Node>
 struct SparseTable {
 	vector<vector<Node>> table;
-	vector<ll> logValues;
+	vector<int> logValues;
 	int n;
 	int maxLog;
-	vector<ll> a;
-	SparseTable(int n1, vector<ll> &arr) {
+	vector<int> a;
+	SparseTable(int n1, vector<int> &arr) {
 		n = n1;
 		a = arr;
 		table.resize(n);
@@ -20,7 +20,7 @@ struct SparseTable {
 		}
 		for (int i = 0; i < n; i++) {
 			table[i].resize(maxLog + 1);
-			fill(all(table[i]), Node());
+			fill(begin(table[i])end(table[i]), Node());
 		}
 		build();
 	}
@@ -63,3 +63,9 @@ struct Node1 {
 		val = l.val ^ r.val;
 	}
 };
+
+/*
+e.g.
+SparseTable st(n,arr); 
+st.queryIdemopotent(l,r).val 
+*/
