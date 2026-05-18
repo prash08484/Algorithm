@@ -1,15 +1,15 @@
 // Knuth-Morris-Pratt [ KMP ] - ALGORITHM
-// Function to compute the LPS (Longest Prefix Suffix) array for the substring `sub`. 
+// Function to compute the LPS (Longest Prefix Suffix) array for the patternstring `pattern`. 
    
 
-        vector<int> computeLPSArray(string &sub) {
-        vector<int> lps(sub.size(), 0);  // Initialize the LPS array with 0.
+        vector<int> computeLPSArray(string &pattern) {
+        vector<int> lps(pattern.size(), 0);  // Initialize the LPS array with 0.
         int currentIndex = 1;            // Start from the second character.
         // Length of the current longest prefix which is also a suffix.
         int len = 0;
 
-        while (currentIndex < sub.size()) {
-            if (sub[currentIndex] == sub[len]) {
+        while (currentIndex < pattern.size()) {
+            if (pattern[currentIndex] == pattern[len]) {
                 len++;  // If the current characters match, extend the prefix.
                 lps[currentIndex] = len;  // Store the length of the prefix.
                 currentIndex++;
@@ -28,25 +28,25 @@
     }
 
 
-    // Function to check if `sub` is a substring of `main` using the KMP algorithm.
+    // Function to check if `pattern` is a patternstring of `text` using the KMP algorithm.
 
-    bool isSubstringOf(string &sub, string &main, vector<int> &lps) {
-        int mainIndex = 0;  // Pointer for `main`.
-        int subIndex = 0;   // Pointer for `sub`.
+    bool ispatternstringOf(string &pattern, string &text, vector<int> &lps) {
+        int textIndex = 0;  // Pointer for `text`.
+        int patternIndex = 0;   // Pointer for `pattern`.
 
-        while (mainIndex < main.size()) {
-            if(main[mainIndex] == sub[subIndex]) {
-                subIndex++;
-                mainIndex++;
-                if (subIndex == sub.size()) return true;  // Found a match.
+        while (textIndex < text.size()) {
+            if(text[textIndex] == pattern[patternIndex]) {
+                patternIndex++;
+                textIndex++;
+                if (patternIndex == pattern.size()) return true;  // Found a match.
             }
              else {
-                if (subIndex > 0) {
+                if (patternIndex > 0) {
                     // Use the LPS to skip unnecessary comparisons.
-                    subIndex = lps[subIndex - 1];
+                    patternIndex = lps[patternIndex - 1];
                 }
                  else {
-                    mainIndex++;
+                    textIndex++;
                 }
             }
         }
