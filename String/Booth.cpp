@@ -1,10 +1,10 @@
 
-// Lexo smallest roatate array where T.C : O(n) 
-vector<ll> lexo(vector<ll>& a) {
+// Lexo smaintest roatate array where T.C : O(n) 
+vector<int> lexo(vector<int>& a) {
     int n = a.size();
     if (n<=1) return a;
 
-    vector<ll> b(2*n);
+    vector<int> b(2*n);
     for (int i=0; i<2*n; i++) b[i] = a[i%n];
 
     int i=0, j=1, k=0;
@@ -25,7 +25,7 @@ vector<ll> lexo(vector<ll>& a) {
     }
 
     int start = min(i,j);
-    vector<ll> res(n);
+    vector<int> res(n);
     for (int i=0; i<n; i++){ 
         res[i] = a[(start+i)%n];
     }
