@@ -1,9 +1,7 @@
 // O(VlogV + ElogV)
 // Single Source Shortest Path
 
-void Dijkstra(int src, int n, vector<ll> &dist, vector<int> &parent, vector<vector<pair<ll, ll>>> &adj) { 
-	dist.assign(n, INF); // UPDATE NEEDED
-	parent.assign(n, -1);
+void Dijkstra(int src, vector<ll> &dist, vector<vector<pair<ll, ll>>> &adj) {  
 	dist[src] = 0;
 	priority_queue <pair<ll, ll>, vector<pair<ll, ll>>, greater<pair<ll, ll>>> q;
 	q.push({0, src});
@@ -18,8 +16,7 @@ void Dijkstra(int src, int n, vector<ll> &dist, vector<int> &parent, vector<vect
 		for (auto it : adj[u]) {
           int v=it.first, wt=it.second;
 			if (dist[u] + wt < dist[v]) {
-				dist[v] = dist[u] + wt;
-				parent[v] = u;
+				dist[v] = dist[u] + wt; 
 				q.push({dist[v], v});
 			}
 		}
