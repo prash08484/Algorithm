@@ -1,4 +1,5 @@
 
+//  T.C. build : O(n) , Query and Update : log(n) 
 class SegmentTree{ 
     // NOTE : here we used 1 based indexing 
     
@@ -11,81 +12,87 @@ class SegmentTree{
     */  
     
     // helper function
-    int left(int i){ return i<<1; }
-    int right(int i){ return (i<<1)|1;}
-    int treeSize(int n){ int sz=ceil(log2(n)); return 1<<(sz+1); }
+    int left( int i ){ return i<<1; }
+    int right( int i ){ return (i<<1)|1; }
+    int treeSize( int n ){ int sz = ceil(log2(n)); return 1<<(sz + 1); }
 public:
+    
+    // DATA REQ. 
+    int n;
+    vector<ll> st; //  global segemnent tree  
 
-    vector<ll> segTree; //  global segemnent tree  
-
-    ll merge(const ll &a,const ll &b){
-        return min(a,b);
+    ll merge( const ll &a, const ll &b ){
+        return min(a, b);
     }
 
-    ll apply(const ll &a,const ll &b){
-        return a+b;
+    ll apply( const ll &a, const ll &b ){
+        return a + b;
     }
 
-    SegmentTree(vector<ll>&arr){
-        int n=arr.size(); 
+    SegmentTree( vector<ll>&arr ){
+        n = arr.size(); 
 
         // size req. to store segment tree
-        int sz=treeSize(n); 
-        segTree.resize(sz,0);
+        int sz = treeSize(n); 
+        st.resize(sz, 0);
 
-        // making segment tree
-        build(arr,0,n-1,1);
+        // build segment tree
+        build(1, 0, n-1, arr);
     }
     
-    // build segment tree : O(n)
-    void build(vector<ll> &arr, int start, int end, int index){
-        if(start==end){
+    void build( int segIdx, int arrL, int arrR, vector<ll> &arr ){
+
+        if(arrL == arrR){
            // UPDATE MAY NEEDED
-            segTree[index]=arr[start];
+            st[segIdx] = arr[arrL];
             return; 
         }
-        int mid=(start+end)/2; 
-        build(arr,start,mid,left(index));
-        build(arr,mid+1,end,right(index));
-        segTree[index]=merge(segTree[left(index)],segTree[right(index)]);
+        
+        int mid = ( arrL + arrR )/2; 
+
+        build( left(segIdx), arrL, mid, arr );
+        build( right(segIdx), mid+1, arrR, arr );
+
+        st[segIdx] = merge( st[left(segIdx)], st[right(segIdx)] );
     }
     
-    /* update (pos,value) 0,n-1,1,pos,value  */
-    void update(int start, int end, int index, int pos, ll value){
+    /* update (uidx, uval) 1, 0, n-1, uidx, uval  */
+    void update(int segIdx, int arrL, int arrR, int uidx, ll uval ){
        
-        if(start==end){
-           segTree[index]=apply(segTree[index],value);
-           return; }
-        int mid=(start+end)/2;
-        if(mid>=pos)
-          update(start,mid,left(index),pos,value);
-        else
-         update(mid+1,end,right(index),pos,value);
+        if(arrL == arrR){
+           st[segIdx] = apply( st[segIdx], uval );
+           return; 
+        }
+        
+        int mid = ( arrL + arrR )/2;
+
+        if( mid >= uidx ) update(left(segIdx), arrL, mid, uidx , uval );
+        else update(right(segIdx), mid+1, arrR, uidx , uval );
        
-        segTree[index]=merge(segTree[left(index)],segTree[right(index)]);
+        st[segIdx] = merge( st[left(segIdx)], st[right(segIdx)] );
     }
 
 
-    /* find query [l,r] 0,n-1,1,qry_l,qry_r  */
-    ll query(int start, int end, int index, int l, int r){
+    /* find query [ql,qr] 1, 0, n-1, qry_l, qry_r  */
+    ll query( int segIdx, int arrL, int arrR, int ql, int qr ){
         
         /* out of bound */
-        if(l>end || r<start){
+        if( ql > arrR || qr < arrL ){
         // UPDATE MAY NEEDED
             return 0;
         }
         
         /* completer overlap */
-        if(start>=l&&end<=r){
-            return segTree[index];
+        if( arrL >= ql && arrR <= qr ){
+            return st[segIdx];
         }
         
         /* parital overlap */
-        int mid=(start+end)/2;
-        auto leftAns=query(start,mid,left(index),l,r);
-        auto rightAns=query(mid+1,end,right(index),l,r);
+        int mid=( arrL + arrR )/2;
+
+        auto leftAns = query( left(segIdx), arrL, mid, ql, qr );
+        auto rightAns = query( right(segIdx), mid+1, arrR, ql, qr );
         
-        return merge(leftAns,rightAns);
+        return merge( leftAns, rightAns );
     } 
 };
-
