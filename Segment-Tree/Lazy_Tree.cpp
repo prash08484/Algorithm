@@ -12,7 +12,7 @@ class SegmentTree{
  public:
     
     // DATA REQ. 
-    vector<ll>st; // segment Tree
+    vector<ll>st;       // segment Tree
     vector<ll>lazy;    // lazy Tree
     
  
@@ -60,7 +60,7 @@ class SegmentTree{
         }
 
         /* parital overlap */
-        int mid = ( al + al ) / 2; 
+        int mid = ( al + ar ) / 2; 
 
         build( left(segIdx), al, mid, arr );
         build( right(segIdx), mid+1, ar, arr );
@@ -77,7 +77,7 @@ class SegmentTree{
         if(lazy[segIdx] != 0){
 
             st[segIdx] = apply( st[segIdx], lazy[segIdx] ); 
-            propagate( al, ar, segIdx ); 
+            propagate( segIdx, al, ar ); 
 
         }
     
@@ -112,7 +112,7 @@ class SegmentTree{
         if( lazy[segIdx] !=0 ){
 
             st[segIdx] = apply( st[segIdx], lazy[segIdx] ); 
-            propagate( al, ar, segIdx ); 
+            propagate( segIdx, al, ar );  
 
         }
     
@@ -124,7 +124,7 @@ class SegmentTree{
 
             st[segIdx] = apply( st[segIdx], uval ); 
             lazy[segIdx] += uval; 
-            propagate( al, ar, segIdx ); 
+            propagate( segIdx, al, ar );  
 
             return;
         }
