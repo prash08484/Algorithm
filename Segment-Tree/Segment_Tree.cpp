@@ -1,5 +1,7 @@
 
-//  T.C. build : O(n) , Query and Update : log(n) 
+// T.C. 
+// build : O(n) 
+// Query and Update : log(n) 
 class SegmentTree{ 
     // NOTE : here we used 1 based indexing 
     
@@ -17,8 +19,7 @@ class SegmentTree{
     int treeSize( int n ){ int sz = ceil(log2(n)); return 1<<(sz + 1); }
 public:
     
-    // DATA REQ. 
-    int n;
+    // DATA REQ.  
     vector<ll> st; //  global segemnent tree  
 
     ll merge( const ll &a, const ll &b ){
@@ -30,7 +31,7 @@ public:
     }
 
     SegmentTree( vector<ll>&arr ){
-        n = arr.size(); 
+        int n = arr.size(); 
 
         // size req. to store segment tree
         int sz = treeSize(n); 
@@ -40,58 +41,58 @@ public:
         build(1, 0, n-1, arr);
     }
     
-    void build( int segIdx, int arrL, int arrR, vector<ll> &arr ){
+    void build( int segIdx, int al, int ar, vector<ll> &arr ){
 
-        if(arrL == arrR){
+        if(al == ar){
            // UPDATE MAY NEEDED
-            st[segIdx] = arr[arrL];
+            st[segIdx] = arr[al];
             return; 
         }
         
-        int mid = ( arrL + arrR )/2; 
+        int mid = ( al + ar )/2; 
 
-        build( left(segIdx), arrL, mid, arr );
-        build( right(segIdx), mid+1, arrR, arr );
+        build( left(segIdx), al, mid, arr );
+        build( right(segIdx), mid+1, ar, arr );
 
         st[segIdx] = merge( st[left(segIdx)], st[right(segIdx)] );
     }
     
-    /* update (uidx, uval) 1, 0, n-1, uidx, uval  */
-    void update(int segIdx, int arrL, int arrR, int uidx, ll uval ){
+    /* update [uidx, uval] 1, 0, n-1, uidx, uval  */
+    void update(int segIdx, int al, int ar, int uidx, ll uval ){
        
-        if(arrL == arrR){
+        if(al == ar){
            st[segIdx] = apply( st[segIdx], uval );
            return; 
         }
         
-        int mid = ( arrL + arrR )/2;
+        int mid = ( al + ar )/2;
 
-        if( mid >= uidx ) update(left(segIdx), arrL, mid, uidx , uval );
-        else update(right(segIdx), mid+1, arrR, uidx , uval );
+        if( mid >= uidx ) update( left(segIdx), al, mid, uidx , uval );
+        else update( right(segIdx), mid+1, ar, uidx , uval );
        
         st[segIdx] = merge( st[left(segIdx)], st[right(segIdx)] );
     }
 
 
     /* find query [ql,qr] 1, 0, n-1, qry_l, qry_r  */
-    ll query( int segIdx, int arrL, int arrR, int ql, int qr ){
+    ll query( int segIdx, int al, int ar, int ql, int qr ){
         
         /* out of bound */
-        if( ql > arrR || qr < arrL ){
+        if( ql > ar || qr < al ){
         // UPDATE MAY NEEDED
             return 0;
         }
         
         /* completer overlap */
-        if( arrL >= ql && arrR <= qr ){
+        if( al >= ql && ar <= qr ){
             return st[segIdx];
         }
         
         /* parital overlap */
-        int mid=( arrL + arrR )/2;
+        int mid = ( al + ar )/2;
 
-        auto leftAns = query( left(segIdx), arrL, mid, ql, qr );
-        auto rightAns = query( right(segIdx), mid+1, arrR, ql, qr );
+        auto leftAns = query( left(segIdx), al, mid, ql, qr );
+        auto rightAns = query( right(segIdx), mid+1, ar, ql, qr );
         
         return merge( leftAns, rightAns );
     } 
