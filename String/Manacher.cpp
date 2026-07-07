@@ -1,4 +1,5 @@
-// Longest Palindromic Substring in O(n)
+// Longest Palindromic Substring
+// T.C: O(n)
 vector<int> manacher(string& str) {
 
     // transform string
@@ -6,17 +7,14 @@ vector<int> manacher(string& str) {
     for (char &it : str)
         s += "#" + string(1, it);
     s += "#";
-
-    int n = s.size();
-  
-    // sentinels
     s = "$" + s + "^";
 
-    vector<int> p(n + 2, 0);
+    int n = s.size();
+    vector<int> p(n, 0);
 
     int l = 0, r = 0;
 
-    for (int i = 1; i <= n; i++) {
+    for (int i = 1; i < n-1; i++) {
 
         int j = l + r - i; // mirror index
 
@@ -33,8 +31,14 @@ vector<int> manacher(string& str) {
             r = i + p[i];
         }
     }
-  
-    str=s;
+
+    /*
+     To get the original indices :
+       int left=i-p[i]+1; // remove last # by adding 1
+       int right=i-p[i]-1; // remove last # by substracting 1 
+       left=(left-2)/2; // OG Indices 
+       right=(right-2)/2; // OG Indices 
+    */
     
   return p;
 }
