@@ -1,58 +1,67 @@
-// T.C. O((n + q) * sqrt(n))
+// Sorting : O(Q log Q)
+// Processing : O((N + Q) * sqrt(N))
+
 class Mo {
 public: 
-    struct Query { ll L,R,idx; };
+    struct Query { int L,R,idx; };
 
-    ll n, q;
-    ll BLOCK;
+    int n, q;
+    int BLOCK;
+    
+    // Input Data 
+    vector<int>arr;   // element array  
+    vector<Query>qry; // query array 
+    
+    // Answer Array
+    vector<int>ans; 
 
-    vector<ll>arr; // Input Array  
-    vector<ll>ans; 
-    vector<Query>qry;
+    // Data Per Block 
+    long long currSum = 0; // UPDATE REQ. 
 
-    ll currSum = 0; // UPDATE AS REQ
 
-    Mo(vector<ll>& inputArray, vector<pair<ll,ll>>& queriesInput){
+    Mo(vector<int>& inputArray, vector<pair<int,int>>& queriesInput){
         arr = inputArray;
         n = arr.size();
         q = queriesInput.size(); // 0-based
  
         qry.resize(q);
 
-        for (ll i=0; i<q; i++) {
-            qry[i].L = queriesInput[i].L; 
-            qry[i].R = queriesInput[i].R; 
+        for (int i=0; i<q; i++) {
+            qry[i].L = queriesInput[i].first; 
+            qry[i].R = queriesInput[i].second; 
             qry[i].idx = i;
         }
         ans.assign(q, 0);
         run();
     } 
 
-    void add(ll pos) { 
+    void add(int pos) { 
         currSum += arr[pos]; // UPDATE REQ.
     }
 
-    void remove(ll pos) { 
+    void remove(int pos) { 
         currSum -= arr[pos]; // UPDATE REQ. 
     } 
 
     void run(){
-        BLOCK = sqrt(n);
+
+        // BLOCK = sqrt(n);  
+        BLOCK = max(1, (int)(n / sqrt(q)));  // Performence Q >>> N
 
         sort(begin(qry), end(qry), [this](const Query& a1, const Query& a2){
-                ll blockA = a1.L / BLOCK;
-                ll blockB = a2.L / BLOCK;
+                int blockA = a1.L / BLOCK;
+                int blockB = a2.L / BLOCK;
                 if (blockA != blockB){
                     return blockA < blockB;
                 }
-                return (blockA&1) ? (a1.L > a2.L) : (a1.R < a2.R);
+                return (blockA&1) ? (a1.R > a2.R) : (a1.R < a2.R);
             });
 
-        ll L = 0, R = -1;
+        int L = 0, R = -1;
         for (auto &qv : qry) {
-            ll l = qv.L;
-            ll r = qv.R;
-            ll idx = qv.idx;
+            int l = qv.L;
+            int r = qv.R;
+            int idx = qv.idx;
 
             while(L>l)add(--L);
             while(R<r)add(++R);
@@ -63,3 +72,4 @@ public:
         }
     }
 };
+
