@@ -35,7 +35,7 @@ string infixToPostfix(string s)
         }
         else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^')
         {
-            while ((st.empty() == 0) && (st.top() != '(') && (hash(st.top()) >= hash(c)))
+            while ( !st.empty() && st.top() != '(' && hash(st.top()) >= hash(c) )
             {
                 res += st.top();
                 st.pop();
